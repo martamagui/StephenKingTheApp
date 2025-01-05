@@ -13,8 +13,8 @@ Key features include:
 ## :construction: Roadmap :construction: 
 Note: (Project still in progress)
 ### Project Initialization
-- [ ] Set up a new Android project in Android Studio.
-- [ ] Configure project dependencies for Jetpack Compose, Retrofit, Hilt, and other necessary libraries.
+- [x] Set up a new Android project in Android Studio.
+- [x] Configure project dependencies for Jetpack Compose, Retrofit, Hilt, and other necessary libraries.
 - [ ] Add the Stephen King API base URL to the project’s build configuration.
 
 ### Core Functionality
@@ -53,3 +53,10 @@ Note: (Project still in progress)
 - **Dependency Injection**: Hilt
 - **Testing Frameworks**: JUnit, Mockito, Jetpack Compose Testing
 - **State Management**: Flows 
+
+---
+
+## Instructions
+
+To run this project add to you local properties the following line:
+`` BASE_URL ="https://stephen-king-api.onrender.com/api/" ``
