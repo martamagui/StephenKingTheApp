@@ -27,6 +27,8 @@ android {
             load(FileInputStream(File(rootProject.rootDir, "local.properties")))
         }
         buildConfigField("String", "BASE_URL", "${properties.getProperty("BASE_URL")}")
+        buildConfigField("String", "BOOKS", "\"books\"")
+        buildConfigField("String", "BOOK_DETAIL", "\"books/{bookId}\"")
     }
 
     buildTypes {
