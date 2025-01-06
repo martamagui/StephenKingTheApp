@@ -6,5 +6,4 @@ sealed class SafeApiResponse<T>(
 ) {
     class Success<T>(data: T?) : SafeApiResponse<T>(data = data)
     class Error<T>(message: String?, data: T? = null) : SafeApiResponse<T>(data = data, message)
-    class Loading<T>: SafeApiResponse<T>()
 }
