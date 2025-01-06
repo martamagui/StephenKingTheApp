@@ -1,4 +1,4 @@
-package com.mmag.stephenking.domain.mapper
+package com.mmag.stephenking.domain.model.mapper
 
 import com.mmag.stephenking.data.network.SafeApiResponse
 import com.mmag.stephenking.domain.model.StephenKingResponse

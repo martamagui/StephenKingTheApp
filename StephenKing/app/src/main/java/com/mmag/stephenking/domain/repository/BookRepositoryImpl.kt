@@ -2,7 +2,7 @@ package com.mmag.stephenking.domain.repository
 
 import com.mmag.stephenking.data.network.SafeApiResponse
 import com.mmag.stephenking.data.network.repository.BookServiceRepository
-import com.mmag.stephenking.domain.mapper.toDomainModel
+import com.mmag.stephenking.domain.model.mapper.toDomainModel
 import com.mmag.stephenking.domain.model.Book
 import com.mmag.stephenking.domain.model.StephenKingResponse
 import kotlinx.coroutines.flow.Flow
