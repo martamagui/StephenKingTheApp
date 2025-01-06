@@ -18,7 +18,12 @@ abstract class SafeService {
                     getDefaultError(apiResponse)
                 }
             } catch (e: HttpException) {
-                SafeApiResponse.Error(e.message() ?: "Something went wrong")
+                SafeApiResponse.Error(
+                    if (!e.message().isNullOrBlank() && e.message() != "Response.error()")
+                        e.message()
+                    else
+                        "Something went wrong"
+                )
             } catch (e: IOException) {
                 SafeApiResponse.Error("Please check your network connection")
             } catch (e: Exception) {
