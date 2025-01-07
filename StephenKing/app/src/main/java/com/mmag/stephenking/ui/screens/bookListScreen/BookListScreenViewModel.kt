@@ -1,12 +1,10 @@
 package com.mmag.stephenking.ui.screens.bookListScreen
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mmag.stephenking.domain.model.Book
 import com.mmag.stephenking.domain.model.StephenKingResponse
-import com.mmag.stephenking.domain.repository.BookRepository
-import com.mmag.stephenking.ui.model.BookItem
-import com.mmag.stephenking.ui.model.mapper.toUIModel
+import com.mmag.stephenking.domain.useCases.GetBookListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,12 +14,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BookListScreenViewModel @Inject constructor(
-    private val bookRepository: BookRepository,
+    private val getBookListUseCase: GetBookListUseCase,
 ) : ViewModel() {
 
-    private var _bookListScreenSate: MutableStateFlow<StephenKingResponse<List<BookItem>>> =
+    private var _bookListScreenSate: MutableStateFlow<StephenKingResponse<List<Book>>> =
         MutableStateFlow(StephenKingResponse.Loading())
-    val bookListScreenSate: StateFlow<StephenKingResponse<List<BookItem>>> get() = _bookListScreenSate
+    val bookListScreenSate: StateFlow<StephenKingResponse<List<Book>>> get() = _bookListScreenSate
 
 
     init {
@@ -30,20 +28,8 @@ class BookListScreenViewModel @Inject constructor(
 
     fun retrieveBooks() {
         viewModelScope.launch(Dispatchers.IO) {
-            bookRepository.getBookListResponse().collect { response ->
-                when (response) {
-                    is StephenKingResponse.Error -> _bookListScreenSate.value =
-                        StephenKingResponse.Error(response.errorMessage)
-
-                    is StephenKingResponse.Loading -> _bookListScreenSate.value =
-                        StephenKingResponse.Loading()
-
-                    is StephenKingResponse.Success -> {
-                        val uiModelList: List<BookItem> =
-                            response.data?.map { it.toUIModel() } ?: emptyList()
-                        _bookListScreenSate.value = StephenKingResponse.Success(uiModelList)
-                    }
-                }
+            getBookListUseCase.invoke().collect { response ->
+                 _bookListScreenSate.value = response
             }
         }
     }

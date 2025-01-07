@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Stephen King</string>
+    <string name="default_error_message">Looks like something went wrong :(</string>
 </resources>
