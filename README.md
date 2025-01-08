@@ -15,33 +15,32 @@ Note: (Project still in progress)
 ### Project Initialization
 - [x] Set up a new Android project in Android Studio.
 - [x] Configure project dependencies for Jetpack Compose, Retrofit, Hilt, and other necessary libraries.
-- [ ] Add the Stephen King API base URL to the project’s build configuration.
+- [x] Add the Stephen King API base URL to the project’s build configuration.
 
 ### Core Functionality
 #### Data Layer
-- [ ] Define API endpoints using Retrofit.
-- [ ] Create data models representing books and API responses.
-- [ ] Implement a repository for data fetching and caching.
+- [x] Define API endpoints using Retrofit.
+- [x] Create data models representing books and API responses.
+- [x] Implement a repository for data fetching and caching.
 
 #### Domain Layer
-- [ ] Create use cases for retrieving books and handling business logic.
+- [x] Create repository for retrieving books and handling business logic.
+- [x] Create use cases for retrieving books and handling business logic.
 
 #### Presentation Layer
-- [ ] Set up the MVVM architecture with ViewModel for state management.
+- [x] Set up the MVVM architecture with ViewModel for state management.
 - [ ] Design screens with Jetpack Compose:
   - [ ] Book list screen.
   - [ ] Book details screen.
-- [ ] Integrate LiveData or StateFlow for reactive UI updates.
+- [ ] Integrate StateFlow for reactive UI updates.
 
 ### Additional Features
-- [ ] Implement pagination for the book list.
 - [ ] Add a search functionality to filter books by title or genre.
-- [ ] Implement error handling for network issues and API failures.
+- [x] Implement error handling for network issues and API failures.
 
 ### Testing
 - [ ] Write unit tests for use cases and ViewModels.
 - [ ] Create UI tests using Jetpack Compose Testing.
-- [ ] Add mock responses for API testing.
 
 ---
 
