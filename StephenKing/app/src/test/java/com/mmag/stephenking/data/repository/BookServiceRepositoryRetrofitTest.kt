@@ -43,10 +43,8 @@ class BookServiceRepositoryRetrofitTest {
         val mockResponse = Response.error<BookListResponse>(404, ResponseBody.create(null, ""))
         `when`(mockApiService.getBookList()).thenReturn(mockResponse)
 
-        // Call the method
         val result = bookServiceRepositoryRetrofit.getBookListResponse()
 
-        // Verify result is of type Error and has an error message
         assert(result is SafeApiResponse.Error)
         assert((result as SafeApiResponse.Error).errorMessage != null)
     }
