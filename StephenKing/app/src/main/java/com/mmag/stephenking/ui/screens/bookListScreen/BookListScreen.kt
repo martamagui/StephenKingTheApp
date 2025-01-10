@@ -1,6 +1,7 @@
 package com.mmag.stephenking.ui.screens.bookListScreen
 
 
+import android.os.Message
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,6 +26,7 @@ import com.mmag.stephenking.domain.model.Book
 import com.mmag.stephenking.domain.model.StephenKingResponse
 import com.mmag.stephenking.ui.commonComponents.BookListListScreenTopAppBar
 import com.mmag.stephenking.ui.commonComponents.StephenKingCircularProgressIndicator
+import com.mmag.stephenking.ui.commonComponents.cards.ErrorCard
 
 @Composable
 fun BookListScreen(
@@ -37,17 +39,7 @@ fun BookListScreen(
     ) { paddingValues ->
         when (uiState) {
             is StephenKingResponse.Error -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = uiState.errorMessage
-                            ?: stringResource(R.string.default_error_message)
-                    )
-                }
+                BookListErrorContent(modifier = Modifier.fillMaxSize())
             }
 
             is StephenKingResponse.Loading -> {
@@ -62,7 +54,7 @@ fun BookListScreen(
             }
 
             is StephenKingResponse.Success -> BookListContent(
-                content = uiState.data?: emptyList(),
+                content = uiState.data ?: emptyList(),
                 onBookClick = { id -> onBookClick(id) },
                 modifier = Modifier
                     .fillMaxSize()
@@ -79,13 +71,28 @@ fun BookListContent(
     modifier: Modifier,
 ) {
     Box(modifier = modifier.padding(12.dp)) {
-            LazyColumn(
-                contentPadding = PaddingValues(4.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                items(content) { book ->
-                    Text(text = book.title, Modifier.clickable { onBookClick(book.id.toString()) })
-                }
+        LazyColumn(
+            contentPadding = PaddingValues(4.dp),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            items(content) { book ->
+                Text(text = book.title, Modifier.clickable { onBookClick(book.id.toString()) })
             }
+        }
+    }
+}
+
+@Composable
+fun BookListErrorContent(
+    modifier: Modifier,
+    errorMessage: String = stringResource(R.string.default_error_message),
+) {
+    Box(
+        contentAlignment = Alignment.TopCenter,
+        modifier = modifier
+            .padding(12.dp)
+            .testTag("BookListErrorContent")
+    ) {
+        ErrorCard(errorMessage, Modifier.fillMaxWidth())
     }
 }
