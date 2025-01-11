@@ -1,6 +1,8 @@
 package com.mmag.stephenking.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,7 +16,8 @@ import com.mmag.stephenking.ui.screens.bookListScreen.BookListScreen
 fun StephenKingNavigation(navController: NavHostController = rememberNavController()) {
     NavHost(
         navController = navController,
-        startDestination = BookListDestination
+        startDestination = BookListDestination,
+        modifier = Modifier.testTag("StephenKingNavigation")
     ) {
 
         composable<BookListDestination> {

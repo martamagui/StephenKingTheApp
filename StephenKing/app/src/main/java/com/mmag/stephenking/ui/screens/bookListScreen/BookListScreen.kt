@@ -4,12 +4,17 @@ package com.mmag.stephenking.ui.screens.bookListScreen
 import android.os.Message
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mmag.stephenking.R
@@ -34,26 +40,23 @@ fun BookListScreen(
     onBookClick: (String) -> Unit,
 ) {
     val uiState by viewModel.bookListScreenSate.collectAsState()
+
     Scaffold(
-        topBar = { BookListListScreenTopAppBar() }
+        topBar = { BookListListScreenTopAppBar() },
+        modifier = Modifier.testTag("BookListScreen")
     ) { paddingValues ->
         when (uiState) {
-            is StephenKingResponse.Error -> {
-                BookListErrorContent(modifier = Modifier.fillMaxSize())
-            }
+            is StephenKingResponse.Error -> BookListErrorContent(
+                modifier = Modifier.fillMaxSize()
+            )
 
-            is StephenKingResponse.Loading -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues),
-                    contentAlignment = Alignment.Center
-                ) {
-                    StephenKingCircularProgressIndicator(Modifier.testTag("BookInProgress"))
-                }
-            }
+            is StephenKingResponse.Loading -> BookListLoadingContent(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            )
 
-            is StephenKingResponse.Success -> BookListContent(
+            is StephenKingResponse.Success -> BookListSuccessContent(
                 content = uiState.data ?: emptyList(),
                 onBookClick = { id -> onBookClick(id) },
                 modifier = Modifier
@@ -65,20 +68,12 @@ fun BookListScreen(
 }
 
 @Composable
-fun BookListContent(
-    content: List<Book>,
-    onBookClick: (String) -> Unit,
-    modifier: Modifier,
-) {
-    Box(modifier = modifier.padding(12.dp)) {
-        LazyColumn(
-            contentPadding = PaddingValues(4.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            items(content) { book ->
-                Text(text = book.title, Modifier.clickable { onBookClick(book.id.toString()) })
-            }
-        }
+fun BookListLoadingContent(modifier: Modifier) {
+    Box(
+        modifier = modifier.testTag("BookListLoadingContent"),
+        contentAlignment = Alignment.Center
+    ) {
+        StephenKingCircularProgressIndicator(Modifier.testTag("BookInProgress"))
     }
 }
 
@@ -94,5 +89,60 @@ fun BookListErrorContent(
             .testTag("BookListErrorContent")
     ) {
         ErrorCard(errorMessage, Modifier.fillMaxWidth())
+    }
+}
+
+@Composable
+fun BookListSuccessContent(
+    content: List<Book>,
+    onBookClick: (String) -> Unit,
+    modifier: Modifier,
+) {
+    Box(
+        modifier = modifier
+            .padding(12.dp)
+            .testTag("BookListSuccessContent")
+    ) {
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            items(content) { book ->
+                BookListItem(
+                    content = book,
+                    onBookClick = onBookClick,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun BookListItem(
+    content: Book,
+    onBookClick: (String) -> Unit,
+    modifier: Modifier,
+) {
+    Card(
+        modifier = modifier
+            .defaultMinSize(0.dp, 56.dp)
+            .padding(4.dp)
+            .clickable { onBookClick(content.id.toString()) }
+            .testTag("BookListItem")
+    ) {
+        Column(modifier = Modifier
+            .padding(12.dp)
+            .fillMaxWidth()) {
+            Text(
+                text = content.title,
+                modifier = Modifier.fillMaxWidth(),
+                style = MaterialTheme.typography.titleMedium,
+            )
+            Text(
+                text = content.year.toString(),
+                modifier = Modifier.fillMaxWidth(),
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
     }
 }
