@@ -21,8 +21,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
+        testInstrumentationRunner = "com.mmag.stephenking.TestRunner"
 
         val properties = Properties().apply {
             load(FileInputStream(File(rootProject.rootDir, "local.properties")))
@@ -70,7 +69,17 @@ dependencies {
 
     implementation(libs.navigation.compose)
     implementation(libs.hilt.android)
+    implementation(libs.androidx.runner)
+    implementation(libs.hilt.android.testing.v2511)
+    implementation(libs.hilt.android.testing.v2511)
+    implementation(libs.hilt.android.testing.v2511)
     kapt(libs.hilt.android.compiler)
+    kaptAndroidTest(libs.hilt.android.compiler)
+    androidTestImplementation(libs.dagger.hilt.android.testing)
+    testAnnotationProcessor(libs.hilt.android.compiler)
+    androidTestImplementation(libs.hilt.android.testing.v2511)
+    kaptAndroidTest(libs.hilt.android.compiler)
+
     implementation(libs.hilt.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit)

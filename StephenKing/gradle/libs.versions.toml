@@ -1,5 +1,7 @@
 [versions]
 agp = "8.7.3"
+hiltAndroidTesting = "2.51.1"
+hiltAndroidTestingVersion = "1.0.0-beta04"
 kotlin = "2.0.0"
 coreKtx = "1.10.1"
 junit = "4.13.2"
@@ -18,6 +20,7 @@ retrofit = "2.9.0"
 okhttp = "4.12.0"
 hilt-navigation-compose = "1.0.0"
 kotlinx-serialization = "1.7.3"
+runner = "1.6.2"
 
 
 [libraries]
@@ -46,6 +49,8 @@ navigation-testing = { group = "androidx.navigation", name = "navigation-testing
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
+dagger-hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroidTestingVersion" }
+hilt-android-testing-v2511 = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroidTesting" }
 
 # --------- Retrofit ---------
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
@@ -59,6 +64,7 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
 mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockito-kotlin" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
+androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
