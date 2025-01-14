@@ -103,15 +103,27 @@ fun BookListSuccessContent(
             .padding(12.dp)
             .testTag("BookListSuccessContent")
     ) {
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            items(content) { book ->
-                BookListItem(
-                    content = book,
-                    onBookClick = onBookClick,
-                    modifier = Modifier.fillMaxWidth()
-                )
+        if (content.isEmpty()) {
+            Text(
+                text = stringResource(R.string.no_books_found),
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("NoBooksFound")
+            )
+        } else {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth()
+                    .testTag("BookListLazyColumn"),
+            ) {
+                items(content, key = { item -> item.id }) { book ->
+                    BookListItem(
+                        content = book,
+                        onBookClick = onBookClick,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
         }
     }
@@ -128,11 +140,13 @@ fun BookListItem(
             .defaultMinSize(0.dp, 56.dp)
             .padding(4.dp)
             .clickable { onBookClick(content.id.toString()) }
-            .testTag("BookListItem")
+            .testTag("BookListItem${content.id}"),
     ) {
-        Column(modifier = Modifier
-            .padding(12.dp)
-            .fillMaxWidth()) {
+        Column(
+            modifier = Modifier
+                .padding(12.dp)
+                .fillMaxWidth()
+        ) {
             Text(
                 text = content.title,
                 modifier = Modifier.fillMaxWidth(),

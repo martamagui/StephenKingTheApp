@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Stephen King</string>
     <string name="default_error_message">Looks like something went wrong :(</string>
+    <string name="no_books_found">It seems like there is no books yet.</string>
 </resources>
