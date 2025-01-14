@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -12,6 +13,7 @@ import org.junit.runner.RunWith
  * Provides a base class to use for all UI tests.
  */
 @RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 open class UITest {
 
     @get:Rule(order = 0)
@@ -22,8 +24,4 @@ open class UITest {
         hilt.inject()
     }
 
-    protected fun launchActivity() {
-        ActivityScenario.launch(Activity::class.java)
-        Thread.sleep(200)
-    }
 }
