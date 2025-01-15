@@ -26,7 +26,7 @@ class BookListScreenViewModel @Inject constructor(
         retrieveBooks()
     }
 
-    fun retrieveBooks() {
+    private fun retrieveBooks() {
         viewModelScope.launch(Dispatchers.IO) {
             getBookListUseCase.invoke().collect { response ->
                  _bookListScreenSate.value = response

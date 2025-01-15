@@ -28,7 +28,7 @@ android {
         }
         buildConfigField("String", "BASE_URL", "${properties.getProperty("BASE_URL")}")
         buildConfigField("String", "BOOKS", "\"books\"")
-        buildConfigField("String", "BOOK_DETAIL", "\"books/{bookId}\"")
+        buildConfigField("String", "BOOK_DETAIL", "\"book/{bookId}\"")
     }
 
     buildTypes {
