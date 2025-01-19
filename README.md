@@ -30,7 +30,7 @@ Note: (Project still in progress)
 #### Presentation Layer
 - [x] Set up the MVVM architecture with ViewModel for state management.
 - [ ] Design screens with Jetpack Compose:
-  - [ ] Book list screen.
+  - [x] Book list screen.
   - [ ] Book details screen.
 - [ ] Integrate StateFlow for reactive UI updates.
 
@@ -39,7 +39,7 @@ Note: (Project still in progress)
 - [x] Implement error handling for network issues and API failures.
 
 ### Testing
-- [ ] Write unit tests for use cases and ViewModels.
+- [x] Write unit tests for use cases and ViewModels.
 - [ ] Create UI tests using Jetpack Compose Testing.
 
 ---
