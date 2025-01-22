@@ -22,12 +22,9 @@ class BookListScreenViewModel @Inject constructor(
     val bookListScreenSate: StateFlow<StephenKingResponse<List<Book>>> get() = _bookListScreenSate
 
 
-    init {
-        retrieveBooks()
-    }
 
-    private fun retrieveBooks() {
-        viewModelScope.launch(Dispatchers.IO) {
+    fun retrieveBooks() {
+        viewModelScope.launch {
             getBookListUseCase.invoke().collect { response ->
                  _bookListScreenSate.value = response
             }

@@ -33,7 +33,9 @@ import com.mmag.stephenking.ui.commonComponents.cards.ErrorCard
 
 @Composable
 fun BookListScreen(
-    viewModel: BookListScreenViewModel = hiltViewModel(),
+    viewModel: BookListScreenViewModel = hiltViewModel<BookListScreenViewModel>().apply {
+        retrieveBooks()
+    },
     onBookClick: (String) -> Unit,
 ) {
     val uiState by viewModel.bookListScreenSate.collectAsState()
