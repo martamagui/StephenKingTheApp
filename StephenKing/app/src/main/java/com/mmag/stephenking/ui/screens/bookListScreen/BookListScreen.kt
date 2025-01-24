@@ -15,8 +15,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -33,11 +35,13 @@ import com.mmag.stephenking.ui.commonComponents.cards.ErrorCard
 
 @Composable
 fun BookListScreen(
-    viewModel: BookListScreenViewModel = hiltViewModel<BookListScreenViewModel>().apply {
-        retrieveBooks()
-    },
+    viewModel: BookListScreenViewModel = hiltViewModel<BookListScreenViewModel>(),
     onBookClick: (String) -> Unit,
 ) {
+    val scope = rememberCoroutineScope()
+    LaunchedEffect(scope) {
+        viewModel.retrieveBooks()
+    }
     val uiState by viewModel.bookListScreenSate.collectAsState()
 
     Scaffold(
