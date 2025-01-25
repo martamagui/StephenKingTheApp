@@ -1,15 +1,16 @@
 package com.mmag.stephenking.ui.screens.bookDetailScreen
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -60,7 +61,6 @@ fun BookDetailScreen(
                         modifier = Modifier.fillMaxSize(),
                         errorMessage = stringResource(R.string.default_no_data_error_message)
                     )
-                    return@Box
                 } else {
                     BookDetailSuccessScreen(uiState.data!!, Modifier.fillMaxSize())
                 }
@@ -114,7 +114,6 @@ fun BookDetailSuccessScreen(
             BookDetailSuccessScreenBig(book, Modifier.matchParentSize())
         }
     }
-
 }
 
 @Composable
@@ -122,23 +121,44 @@ fun BookDetailSuccessScreenSmall(
     book: Book,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.testTag("BookDetailSuccessScreenSmall")) {
-        Text(
-            text = book.title,
-            style = MaterialTheme.typography.displayLarge
-        )
-        Text(
-            text = stringResource(R.string.book_detail_year, book.year.toString()),
-            style = MaterialTheme.typography.titleMedium
-        )
-        Text(
-            text = stringResource(R.string.book_detail_publisher, book.publisher),
-            style = MaterialTheme.typography.titleMedium
-        )
-        Text(
-            text = stringResource(R.string.book_detail_isbn, book.iSBN),
-            style = MaterialTheme.typography.bodyMedium
-        )
+    LazyColumn(modifier = modifier.testTag("BookDetailSuccessScreenSmall")) {
+        item {
+            BookDetailHeader(Modifier.fillMaxWidth(), book)
+        }
+
+        item {
+            Text(
+                text = stringResource(R.string.book_detail_villains_title),
+                style = MaterialTheme.typography.displaySmall,
+                modifier = Modifier.testTag("BookDetailVillainsTitle")
+            )
+        }
+
+        items(book.villains, key = { item -> item.name }) { villain ->
+            Text(
+                text = villain.name,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.testTag("BookDetailVillain ${villain.name}")
+            )
+        }
+
+        item {
+            if (book.notes.isNotEmpty()) {
+                Text(
+                    text = stringResource(R.string.book_detail_notes_title),
+                    style = MaterialTheme.typography.displaySmall,
+                    modifier = Modifier.testTag("BookDetailNotesTitle")
+                )
+            }
+        }
+
+        items(book.notes, key = { item -> item }) { note ->
+            Text(
+                text = note,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.testTag("BookDetailNote $note")
+            )
+        }
     }
 }
 
@@ -147,18 +167,86 @@ fun BookDetailSuccessScreenBig(
     book: Book,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.testTag("BookDetailSuccessScreenBig")) {
-        Text(text = book.title, style = MaterialTheme.typography.displayLarge)
-        Row(Modifier.fillMaxWidth()) {
-            Text(
-                text = stringResource(R.string.book_detail_year, book.year.toString()),
-                style = MaterialTheme.typography.headlineSmall
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Text(
-                text = stringResource(R.string.book_detail_publisher, book.publisher),
-                style = MaterialTheme.typography.headlineSmall
-            )
+    val scrollState = rememberScrollState()
+    Column(
+        modifier = modifier
+            .verticalScroll(scrollState)
+            .testTag("BookDetailSuccessScreenSmall")
+    ) {
+
+        BookDetailHeader(Modifier.fillMaxWidth(), book)
+
+        Row(verticalAlignment = Alignment.Top) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+            ) {
+                if (book.villains.isNotEmpty()) {
+                    Text(
+                        text = stringResource(R.string.book_detail_villains_title),
+                        style = MaterialTheme.typography.displaySmall,
+                        modifier = Modifier.testTag("BookDetailVillainsTitle")
+                    )
+                    book.villains.forEach { villain ->
+                        Text(
+                            text = villain.name,
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.testTag("BookDetailVillain ${villain.name}")
+                        )
+                    }
+                }
+            }
+
+            if (book.notes.isNotEmpty()) {
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                ) {
+                    Text(
+                        text = stringResource(R.string.book_detail_notes_title),
+                        style = MaterialTheme.typography.displaySmall,
+                        modifier = Modifier.testTag("BookDetailNotesTitle")
+                    )
+
+                    book.notes.forEach { note ->
+                        Text(
+                            text = note,
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.testTag("BookDetailNote $note")
+                        )
+                    }
+                }
+            }
         }
+    }
+}
+
+
+@Composable
+fun BookDetailHeader(modifier: Modifier, book: Book) {
+    Column(
+        modifier
+            .testTag("BookDetailHeader")
+    ) {
+        Text(
+            text = book.title,
+            style = MaterialTheme.typography.displayLarge
+        )
+        Text(
+            text = stringResource(R.string.book_detail_year, book.year.toString()),
+            style = MaterialTheme.typography.bodyMedium
+        )
+        Text(
+            text = stringResource(R.string.book_detail_publisher, book.publisher),
+            style = MaterialTheme.typography.bodyMedium
+        )
+        Text(
+            text = stringResource(R.string.book_detail_isbn, book.iSBN),
+            style = MaterialTheme.typography.bodyMedium
+        )
+        Text(
+            text = stringResource(R.string.book_detail_pages, book.pages),
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }
