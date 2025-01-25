@@ -1,6 +1,5 @@
 package com.mmag.stephenking.domain.model
 
-import com.mmag.stephenking.data.network.model.VillainResponse
 
 data class Book(
     val createdAt: String,
@@ -11,6 +10,6 @@ data class Book(
     val pages: Int,
     val publisher: String,
     val title: String,
-    val villains: List<VillainResponse>,
+    val villains: List<Villain>,
     val year: Int,
 )

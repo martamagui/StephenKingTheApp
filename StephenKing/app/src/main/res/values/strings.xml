@@ -4,6 +4,7 @@
     <string name="default_no_data_error_message">We couldn\'t find what you are looking for</string>
     <string name="no_books_found">It seems like there is no books yet.</string>
     <!--region BookDetailScreen -->
+    <string name="book_detail_back_content_description">Go back</string>
     <string name="book_detail_year">Year: %1s</string>
     <string name="book_detail_isbn">ISBN: %1s</string>
     <string name="book_detail_pages">Pages: %1d</string>

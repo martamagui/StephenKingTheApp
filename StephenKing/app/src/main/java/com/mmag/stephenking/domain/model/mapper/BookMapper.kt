@@ -20,7 +20,7 @@ fun BookResponse.toDomainModel(): Book {
         pages = this.pages,
         publisher = this.publisher,
         title = this.title,
-        villains = this.villains,
+        villains = this.villains.toDomainModel(),
         year = this.year
     )
 }

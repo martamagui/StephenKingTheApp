@@ -20,8 +20,7 @@ class BookListScreenViewModel @Inject constructor(
     private var _bookListScreenSate: MutableStateFlow<StephenKingResponse<List<Book>>> =
         MutableStateFlow(StephenKingResponse.Loading())
     val bookListScreenSate: StateFlow<StephenKingResponse<List<Book>>> get() = _bookListScreenSate
-
-
+    
 
     fun retrieveBooks() {
         viewModelScope.launch {

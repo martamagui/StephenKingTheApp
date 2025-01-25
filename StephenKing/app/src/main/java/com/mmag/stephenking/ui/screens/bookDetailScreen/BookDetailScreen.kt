@@ -11,8 +11,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -31,46 +39,77 @@ import com.mmag.stephenking.ui.commonComponents.StephenKingCircularProgressIndic
 import com.mmag.stephenking.ui.commonComponents.cards.ErrorCard
 import com.mmag.stephenking.ui.screens.bookListScreen.BookListErrorContent
 
+
 @Composable
 fun BookDetailScreen(
     bookId: String,
     viewModel: BookDetailScreenViewModel = hiltViewModel<BookDetailScreenViewModel>(),
+    onBackPressed: () -> Unit,
 ) {
-    val scope = rememberCoroutineScope()
-    LaunchedEffect(scope) {
+    LaunchedEffect(rememberCoroutineScope()) {
         viewModel.getBookDetail(bookId)
     }
+
     val uiState by viewModel.bookDetailScreenState.collectAsState()
 
-    Box(
+    Scaffold(
+        topBar = { BookDetailTopAppBar(onBackPressed) },
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp, 42.dp)
             .testTag("BookDetailScreen: $bookId")
-    ) {
-        when (uiState) {
-            is StephenKingResponse.Loading -> BookDetailLoadingContent(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(24.dp)
-            )
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
 
-            is StephenKingResponse.Success -> {
-                if (uiState.data == null) {
-                    BookDetailErrorContent(
-                        modifier = Modifier.fillMaxSize(),
-                        errorMessage = stringResource(R.string.default_no_data_error_message)
-                    )
-                } else {
-                    BookDetailSuccessScreen(uiState.data!!, Modifier.fillMaxSize())
+        ) {
+            when (uiState) {
+                is StephenKingResponse.Loading -> BookDetailLoadingContent(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(24.dp)
+                )
+
+                is StephenKingResponse.Success -> {
+                    if (uiState.data == null) {
+                        BookDetailErrorContent(
+                            modifier = Modifier.fillMaxSize(),
+                            errorMessage = stringResource(R.string.default_no_data_error_message)
+                        )
+                    } else {
+                        BookDetailSuccessScreen(uiState.data!!, Modifier.fillMaxSize())
+                    }
                 }
-            }
 
-            is StephenKingResponse.Error -> BookListErrorContent(
-                modifier = Modifier.fillMaxSize()
-            )
+                is StephenKingResponse.Error -> BookListErrorContent(
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
         }
     }
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BookDetailTopAppBar(onBackPressed: () -> Unit) {
+    TopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.primary,
+        ),
+        navigationIcon = {
+            IconButton(onClick = { onBackPressed() }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = stringResource(R.string.book_detail_back_content_description)
+                )
+            }
+        },
+        title = {},
+        modifier = Modifier.testTag("BookDetailTopAppBar")
+    )
 }
 
 @Composable
@@ -106,9 +145,10 @@ fun BookDetailSuccessScreen(
 ) {
     BoxWithConstraints(
         modifier = modifier
+            .padding(12.dp)
             .testTag("BookDetailSuccessScreen")
     ) {
-        if (maxWidth < 400.dp) {
+        if (maxWidth < 480.dp) {
             BookDetailSuccessScreenSmall(book, Modifier.matchParentSize())
         } else {
             BookDetailSuccessScreenBig(book, Modifier.matchParentSize())
@@ -127,11 +167,13 @@ fun BookDetailSuccessScreenSmall(
         }
 
         item {
-            Text(
-                text = stringResource(R.string.book_detail_villains_title),
-                style = MaterialTheme.typography.displaySmall,
-                modifier = Modifier.testTag("BookDetailVillainsTitle")
-            )
+            if (book.villains.isNotEmpty()) {
+                Text(
+                    text = stringResource(R.string.book_detail_villains_title),
+                    style = MaterialTheme.typography.displaySmall,
+                    modifier = Modifier.testTag("BookDetailVillainsTitle")
+                )
+            }
         }
 
         items(book.villains, key = { item -> item.name }) { villain ->

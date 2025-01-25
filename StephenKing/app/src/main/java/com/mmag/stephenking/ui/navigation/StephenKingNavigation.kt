@@ -30,7 +30,7 @@ fun StephenKingNavigation(navController: NavHostController = rememberNavControll
 
         composable<BookDetailDestination> { backStackEntry ->
             val detail = backStackEntry.toRoute<BookDetailDestination>()
-            BookDetailScreen(detail.bookId)
+            BookDetailScreen(detail.bookId, onBackPressed = { navController.popBackStack() })
         }
 
     }
