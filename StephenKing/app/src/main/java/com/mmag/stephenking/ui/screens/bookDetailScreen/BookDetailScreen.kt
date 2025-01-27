@@ -82,7 +82,7 @@ fun BookDetailScreen(
                     }
                 }
 
-                is StephenKingResponse.Error -> BookListErrorContent(
+                is StephenKingResponse.Error -> BookDetailErrorContent(
                     modifier = Modifier.fillMaxSize()
                 )
             }
