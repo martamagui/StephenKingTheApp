@@ -83,7 +83,8 @@ fun BookDetailScreen(
                 }
 
                 is StephenKingResponse.Error -> BookDetailErrorContent(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
+                    uiState.errorMessage ?: stringResource(R.string.default_error_message)
                 )
             }
         }
@@ -213,7 +214,7 @@ fun BookDetailSuccessScreenBig(
     Column(
         modifier = modifier
             .verticalScroll(scrollState)
-            .testTag("BookDetailSuccessScreenSmall")
+            .testTag("BookDetailSuccessScreenBig")
     ) {
 
         BookDetailHeader(Modifier.fillMaxWidth(), book)

@@ -2,6 +2,7 @@ package com.mmag.stephenking.ui.screens.bookDetailScreen
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import com.mmag.stephenking.UITest
 import com.mmag.stephenking.domain.model.Book
 import com.mmag.stephenking.domain.model.StephenKingResponse
@@ -40,10 +41,19 @@ class BookDetailScreenTest : UITest() {
     }
 
     @Test
-    fun bookListScreen_showsErrorContent_onErrorState() {
+    fun bookListScreen_showsErrorContent_onErrorStateWithCustomMessage() {
         fakeBookRepository.fakeDetailState.value = StephenKingResponse.Error("Error")
 
         composeRule.onNodeWithTag("BookDetailErrorContent").assertExists()
+        composeRule.onNodeWithText("Error").assertExists()
+    }
+
+    @Test
+    fun bookListScreen_showsErrorContent_onErrorStateWithNoErrorMessage() {
+        fakeBookRepository.fakeDetailState.value = StephenKingResponse.Error(null)
+
+        composeRule.onNodeWithTag("BookDetailErrorContent").assertExists()
+        composeRule.onNodeWithText("Looks like something went wrong :(").assertExists()
     }
 
     @Test
@@ -60,6 +70,13 @@ class BookDetailScreenTest : UITest() {
         composeRule.onNodeWithTag("BookDetailSuccessScreen").assertExists()
     }
 
+    @Test
+    fun bookDetailScreen_showsErrorContent_onSuccessButEmptyDataState() {
+        fakeBookRepository.fakeDetailState.value = StephenKingResponse.Success(null)
+
+        composeRule.onNodeWithTag("BookDetailErrorContent").assertExists()
+        composeRule.onNodeWithText("We couldn't find what you are looking for").assertExists()
+    }
 
     private fun getBookMock() = Book(
         createdAt = "2025-01-01",
