@@ -8,7 +8,11 @@ plugins {
     id("kotlin-kapt")
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlinx.serialization)
+    jacoco
 }
+
+
+apply(from = "gradle/jacoco.gradle.kts")
 
 android {
     namespace = "com.mmag.stephenking"
@@ -38,6 +42,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            enableAndroidTestCoverage = true
+            enableUnitTestCoverage = true
         }
     }
 
