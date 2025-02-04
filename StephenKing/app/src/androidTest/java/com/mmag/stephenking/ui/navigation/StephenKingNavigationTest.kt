@@ -1,33 +1,42 @@
 package com.mmag.stephenking.ui.navigation
 
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ActivityScenario
+import com.mmag.stephenking.UITest
+import com.mmag.stephenking.ui.MainActivity
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class StephenKingNavigationTest {
+@HiltAndroidTest
+class StephenKingNavigationTest: UITest() {
 
-    @get:Rule
-    val composeTestRule = createComposeRule()
-    private lateinit var navController: TestNavHostController
-
-    @Before
-    fun setup() {
-        composeTestRule.setContent {
-            navController = TestNavHostController(LocalContext.current)
-            navController.navigatorProvider.addNavigator(ComposeNavigator())
-            StephenKingNavigation(navController = navController)
-        }
-    }
-
+    @get:Rule(order = 1)
+    val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @Test
-    fun testStartDestinationIsBookList() {
+    fun testStartDestination_IsBookList() {
+        composeTestRule.onNodeWithTag("StephenKingNavigation").assertExists()
         composeTestRule.onNodeWithTag("BookListScreen").assertExists()
     }
+
+    @OptIn(ExperimentalTestApi::class)
+    @Test
+    fun testNavigateToBookDetailScreen_IsBookDetailScreenDisplayed() {
+        composeTestRule.waitUntilAtLeastOneExists(hasTestTag("BookListItem1"))
+        composeTestRule.onNodeWithTag("BookListItem1").performClick()
+        composeTestRule.onNodeWithTag("BookDetailScreen: 1").assertExists()
+    }
+
+
 
 }

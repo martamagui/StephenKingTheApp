@@ -28,11 +28,6 @@ class MainActivityTest : UITest() {
     }
 
     @Test
-    fun testStartDestinationIsBookList() {
-        composeTestRule.onNodeWithTag("BookListScreen").assertExists()
-    }
-
-    @Test
     fun testEdgeToEdgeIsEnabled() {
         val activity = composeTestRule.activity
         assertEquals(

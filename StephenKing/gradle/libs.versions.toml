@@ -18,7 +18,7 @@ nav = "2.8.4"
 hilt = "2.51.1"
 retrofit = "2.9.0"
 okhttp = "4.12.0"
-hilt-navigation-compose = "1.0.0"
+hilt-navigation-compose = "1.2.0"
 kotlinx-serialization = "1.7.3"
 runner = "1.6.2"
 
