@@ -9,18 +9,15 @@ Key features include:
 - Unit and UI testing for reliable performance.
 
 ---
+## Current Jacoco test coverage report:
+![imagen](https://github.com/user-attachments/assets/4c8d0b52-0a3e-4ca6-97a1-31396e01c53d)
 
+---
 ## :construction: Roadmap :construction: 
 Note: (Project still in progress)
-### Project Initialization
-- [x] Set up a new Android project in Android Studio.
-- [x] Configure project dependencies for Jetpack Compose, Retrofit, Hilt, and other necessary libraries.
-- [x] Add the Stephen King API base URL to the project’s build configuration.
-
-### Core Functionality
 #### Data Layer
-- [x] Define API endpoints using Retrofit.
-- [x] Create data models representing books and API responses.
+- [x] Define API endpoints.
+- [x] Create data models for the API responses.
 - [x] Implement a repository for data fetching and caching.
 
 #### Domain Layer
@@ -36,14 +33,16 @@ Note: (Project still in progress)
 
 ### Testing
 - [x] Write unit tests for use cases and ViewModels.
-- [ ] Create UI tests using Jetpack Compose Testing.
+- [x] Create UI tests using Jetpack Compose Testing.
 
 ### Additional Features
 - [x] Implement error handling for network issues and API failures.
-- [ ] Change UI to a responsive design.
+- [x] Change UI to a responsive design.
+- [x] Add jacoco for Unit testing reports
+- [x] Raise test coverage at least to 75%
+- [ ] Keep improving the project 
 
 ---
-
 ## Technologies and Tools
 - **Programming Language**: Kotlin
 - **UI Framework**: Jetpack Compose
@@ -54,7 +53,6 @@ Note: (Project still in progress)
 - **State Management**: Flows 
 
 ---
-
 ## Instructions
 
 To run this project add to you local properties the following line:
