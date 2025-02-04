@@ -2,6 +2,7 @@ import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.register
 import org.gradle.testing.jacoco.tasks.JacocoReport
 
+
 tasks.register<JacocoReport>("jacocoUnitTestReport") {
     dependsOn("testDebugUnitTest")
 
@@ -11,7 +12,21 @@ tasks.register<JacocoReport>("jacocoUnitTestReport") {
     }
 
     val fileFilter = listOf(
-        "jdk.internal.*"
+        "jdk.internal.*",
+        "**/R.class",
+        "**/R\$*.class",
+        "**/BuildConfig.*",
+        "**/Manifest*.*",
+        "**/com/mmag/stephenking/data/network/model/**",
+        "**/com/mmag/stephenking/domain/model/**",
+        "**/com/mmag/stephenking/domain/model/mapper/**",
+        "**/dagger/hilt/internal/aggregatedroot/codegen/**",
+        "**/hilt_aggregated_deps/**",
+        "**/com/mmag/stephenking/ui/**/*Screen*",
+        "**/com/mmag/stephenking/ui/**/*Activity*",
+        "**/com/mmag/stephenking/ui/theme/**",
+        "**/com/mmag/stephenking/ui/commonComponents/**",
+        "**/com/mmag/stephenking/ui/navigation/**",
     )
 
     val kotlinDebugTree = fileTree("${buildDir}/tmp/kotlin-classes/debug") {
@@ -24,6 +39,6 @@ tasks.register<JacocoReport>("jacocoUnitTestReport") {
     classDirectories.setFrom(files(kotlinDebugTree))
 
     executionData.setFrom(fileTree(buildDir) {
-        include("outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec")
+        include("outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec",)
     })
 }

@@ -1,19 +1,14 @@
 package com.mmag.stephenking.ui.navigation
 
-import androidx.compose.ui.platform.LocalContext
+
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import androidx.navigation.compose.ComposeNavigator
-import androidx.navigation.testing.TestNavHostController
-import androidx.test.core.app.ActivityScenario
 import com.mmag.stephenking.UITest
 import com.mmag.stephenking.ui.MainActivity
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -36,7 +31,5 @@ class StephenKingNavigationTest: UITest() {
         composeTestRule.onNodeWithTag("BookListItem1").performClick()
         composeTestRule.onNodeWithTag("BookDetailScreen: 1").assertExists()
     }
-
-
 
 }
