@@ -17,6 +17,7 @@ tasks.register<JacocoReport>("jacocoUnitTestReport") {
         "**/R\$*.class",
         "**/BuildConfig.*",
         "**/Manifest*.*",
+        "**/com/mmag/stephenking/*StephenKingApplication**",
         "**/com/mmag/stephenking/data/network/model/**",
         "**/com/mmag/stephenking/domain/model/**",
         "**/com/mmag/stephenking/domain/model/mapper/**",

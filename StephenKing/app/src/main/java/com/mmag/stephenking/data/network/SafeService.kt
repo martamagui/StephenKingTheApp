@@ -41,7 +41,7 @@ abstract class SafeService {
                 )
             }
 
-            in 399..500 -> {
+            in 399..499 -> {
                 when (apiResponse.code()) {
                     400 -> SafeApiResponse.Error("Bad request")
                     401 -> SafeApiResponse.Error("Unauthorized")

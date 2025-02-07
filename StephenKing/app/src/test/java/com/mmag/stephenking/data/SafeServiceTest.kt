@@ -35,7 +35,67 @@ class SafeServiceTest {
     }
 
     @Test
-    fun `safeApiCall returns error for HTTP error response`() = runTest {
+    fun `safeApiCall returns error for HTTP error response code 299`() = runTest {
+        val apiResponse: Response<String> = mock()
+        `when`(apiResponse.isSuccessful).thenReturn(false)
+        `when`(apiResponse.code()).thenReturn(299)
+
+        val result = safeService.safeApiCall { apiResponse }
+
+        assert(result is SafeApiResponse.Error)
+        assertEquals("Must redirect the request, redirection error", (result as SafeApiResponse.Error).errorMessage)
+    }
+
+    @Test
+    fun `safeApiCall returns error for HTTP error response code 400`() = runTest {
+        val apiResponse: Response<String> = mock()
+        `when`(apiResponse.isSuccessful).thenReturn(false)
+        `when`(apiResponse.code()).thenReturn(400)
+
+        val result = safeService.safeApiCall { apiResponse }
+
+        assert(result is SafeApiResponse.Error)
+        assertEquals("Bad request", (result as SafeApiResponse.Error).errorMessage)
+    }
+
+    @Test
+    fun `safeApiCall returns error for HTTP error response code 401`() = runTest {
+        val apiResponse: Response<String> = mock()
+        `when`(apiResponse.isSuccessful).thenReturn(false)
+        `when`(apiResponse.code()).thenReturn(401)
+
+        val result = safeService.safeApiCall { apiResponse }
+
+        assert(result is SafeApiResponse.Error)
+        assertEquals("Unauthorized", (result as SafeApiResponse.Error).errorMessage)
+    }
+
+    @Test
+    fun `safeApiCall returns error for HTTP error response code 500`() = runTest {
+        val apiResponse: Response<String> = mock()
+        `when`(apiResponse.isSuccessful).thenReturn(false)
+        `when`(apiResponse.code()).thenReturn(500)
+
+        val result = safeService.safeApiCall { apiResponse }
+
+        assert(result is SafeApiResponse.Error)
+        assertEquals("Server error, code: ${apiResponse.code()}", (result as SafeApiResponse.Error).errorMessage)
+    }
+
+    @Test
+    fun `safeApiCall returns error for HTTP error response not registered code`() = runTest {
+        val apiResponse: Response<String> = mock()
+        `when`(apiResponse.isSuccessful).thenReturn(false)
+        `when`(apiResponse.code()).thenReturn(601)
+
+        val result = safeService.safeApiCall { apiResponse }
+
+        assert(result is SafeApiResponse.Error)
+        assertEquals("Unknown error, code: ${apiResponse.code()}", (result as SafeApiResponse.Error).errorMessage)
+    }
+
+    @Test
+    fun `safeApiCall returns error for HTTP error response 404`() = runTest {
         val apiResponse: Response<String> = mock()
         `when`(apiResponse.isSuccessful).thenReturn(false)
         `when`(apiResponse.code()).thenReturn(404)
