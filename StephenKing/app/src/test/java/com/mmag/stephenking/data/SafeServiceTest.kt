@@ -62,6 +62,19 @@ class SafeServiceTest {
     fun `safeApiCall returns error for HTTP error response code 401`() = runTest {
         val apiResponse: Response<String> = mock()
         `when`(apiResponse.isSuccessful).thenReturn(false)
+        `when`(apiResponse.code()).thenReturn(409)
+
+        val result = safeService.safeApiCall { apiResponse }
+
+        assert(result is SafeApiResponse.Error)
+        assertEquals("Request error, code: ${apiResponse.code()}", (result as SafeApiResponse.Error).errorMessage)
+    }
+
+
+    @Test
+    fun `safeApiCall returns error for HTTP error response code 409`() = runTest {
+        val apiResponse: Response<String> = mock()
+        `when`(apiResponse.isSuccessful).thenReturn(false)
         `when`(apiResponse.code()).thenReturn(401)
 
         val result = safeService.safeApiCall { apiResponse }
@@ -108,7 +121,7 @@ class SafeServiceTest {
 
 
     @Test
-    fun `safeApiCall catches HttpException`() = runTest {
+    fun `safeApiCall catches HttpException with message`() = runTest {
         val message = "Http error "
         val httpExceptionFunction: suspend (text: String) -> Response<String> = { text ->
             val exception = mock<HttpException>()
@@ -120,6 +133,21 @@ class SafeServiceTest {
 
         assert(result is SafeApiResponse.Error<*>)
         assertEquals(message, (result as SafeApiResponse.Error<*>).errorMessage)
+    }
+
+    @Test
+    fun `safeApiCall catches HttpException without message`() = runTest {
+
+        val httpExceptionFunction: suspend () -> Response<String?> = {
+            val exception = mock<HttpException>()
+            `when`(exception.message()).doReturn(null)
+            throw exception
+        }
+
+        val result = safeService.safeApiCall { httpExceptionFunction() }
+
+        assert(result is SafeApiResponse.Error<*>)
+        assertEquals("Something went wrong", (result as SafeApiResponse.Error<*>).errorMessage)
     }
 
     @Test
