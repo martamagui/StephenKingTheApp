@@ -10,8 +10,7 @@ Key features include:
 
 ---
 ## Current Jacoco test coverage report:
-![imagen](https://github.com/user-attachments/assets/137e9098-b566-45d8-80e9-4f6ae11c2aef)
-
+![imagen](https://github.com/user-attachments/assets/c26adc84-ceab-45de-99a0-662bdf61c011)
 
 ---
 ## :construction: Roadmap :construction: 
